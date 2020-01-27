@@ -1,75 +1,41 @@
-var path = require("path");
 var db = require("../models");
-var passport = require("../config/passport");
-var isAuthenticated = require("../config/isAuthenticated");
-
 module.exports = function(app) {
-    // Load index page
-    app.get("/", function(req, res) {
-
-        res.sendFile(path.join(__dirname, "../views/index.html"));
-
-    });
-    app.get("/store", function(req, res) {
-
-        res.sendFile(path.join(__dirname, "../views/store.html"));
-    });
-
-    app.get("/profile", function(req, res) {
-        if (db.Users.role === "student") {
-            res.redirect("/student");
-        } else if (db.Users.role === "tutor") {
-            res.redirect("/tutor");
-        } else if (db.Users.role === "admin") {
-            res.redirect("/admin");
-        }
-        else{
-            res.redirect("/")
-        }
-
-
-    });
-
-    app.get("/student", function(req, res) {
-        try{
-            if (req.user.role === "student") {
-                res.sendFile(path.join(__dirname, "../views/student.html"));
+    // GET ROUTES
+    app.get("/api/user/", function(req, res) {
+        db.Users.findOne({
+            where: {
+                id: req.user.id
             }
-            else{
-                res.redirect("/")
-            }
-        }
-        catch{
-            res.redirect("/")
-        }
+        }).then(function(dbUsers) {
+            res.json(dbUsers);
+        });
     });
-
-    app.get("/admin", function(req, res) {
-        try{
-            if (req.user.role === "admin") {
-                res.sendFile(path.join(__dirname, "../views/admin.html"));
+    app.get("/api/students", function(req, res) {
+        db.Users.findAll({
+            where: {
+                tutor_id: req.user.id
             }
-            else{
-                res.redirect("/")
-            }
-        }
-        catch{
-            res.redirect("/")
-        }
+        }).then(function(dbStudents) {
+            res.json(dbStudents);
+        });
     });
-
-    app.get("/tutor", function(req, res) {
-        try{
-            if (req.user.role === "tutor") {
-                res.sendFile(path.join(__dirname, "../views/tutor.html"));
-            }
-            else{
-                res.redirect("/")
-            }
-        }
-        catch{
-            res.redirect("/")
-        }
+    // POST ROUTES
+    app.post("/api/profile", function(req, res) {
+        db.Users.create(req.body).then(function(response) {
+            console.log("after insert:");
+            //console.log(response);
+            res.json(response);
+        });
     });
-
+    
+    // UPDATE ROUTES
+    app.put("/api/student_hours/", function(req, res) {
+        console.log("student hours route hit");
+        let updateStudent = {
+            hours: req.body.hours
+        }
+        db.Users.update(updateStudent, { where: { id: req.body.id } }).then(function(result) {
+            return res.json(result);
+        });
+    })
 };
