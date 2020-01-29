@@ -24,7 +24,7 @@ module.exports = function(app) {
     // UPDATE ROUTES
     app.put("/api/workouts/:id", function(req, res) {
         let updateWorkout = req.body;
-        db.Workout.updateOne({ _id: req.params.id }, updateWorkout).then(function(result) {
+        db.Workout.updateOne({ _id: req.params.id }, {$push: {exercises: updateWorkout}}).then(function(result) {
             return res.json(result);
         });
     })
