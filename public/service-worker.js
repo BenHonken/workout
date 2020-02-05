@@ -1,4 +1,4 @@
-const FILES_TO_CACHE = ["/", "/index.html", "index.js", "/exercise.html", "exercise.js", "/stats.html", "stats.js", "style.css", "workout-style.css", "api.js", "workout.js", "favicon.ico"];
+const FILES_TO_CACHE = ["/", "/index.html", "/index.js", "/exercise.html", "/exercise.js", "/stats.html", "/stats.js", "/style.css", "/workout-style.css", "/api.js", "/workout.js"];
 
 const CACHE_NAME = "static-cache-v2";
 const DATA_CACHE_NAME = "data-cache-v1";
