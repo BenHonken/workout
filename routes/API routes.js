@@ -20,6 +20,11 @@ module.exports = function(app) {
             res.json(response);
         });
     });
+    app.post("/api/workouts/bulk", function(req, res) {
+        db.Workout.insertMany(req.body).then(function(response) {
+            res.json(response);
+        });
+    });
     
     // UPDATE ROUTES
     app.put("/api/workouts/:id", function(req, res) {
