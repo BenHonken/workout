@@ -3,7 +3,7 @@ https://serene-wildwood-40635.herokuapp.com/
 
 ## Description
 
-This is a workout tracker made by Ben Honken.  It uses mLab and mongo to track all of your workout data as it is entered.  You can create new workouts or continue old ones.  You can add cardio and resistance exercises.  Once you have some data, you can look at your dashboard to see your recent stats.  
+This is a workout tracker made by Ben Honken.  It uses mLab and mongo to track all of your workout data as it is entered.  You can create new workouts or continue old ones.  You can add cardio and resistance exercises.  Once you have some data, you can look at your dashboard to see your recent stats.  Offline functionality is also a work in progress.  All pages can load, and I attempted to catch failed API calls by sending them to indexeddb, submitting and clearing stored entries on reconnect.  The ability to store data while offline is currently still bugged.  
 
 [home](images/home.png)
 [new exercise](images/newExercise.png)
