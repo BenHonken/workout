@@ -1,10 +1,10 @@
 let db;
 
-const request = indexedDB.open("guestlist", 1);
+const request = indexedDB.open("workouts", 1);
 
 request.onupgradeneeded = function(event) {
   const db = event.target.result;
-  db.createObjectStore("guests", { autoIncrement: true });
+  db.createObjectStore("workouts", { autoIncrement: true });
 };
 
 request.onsuccess = function(event) {
@@ -21,8 +21,8 @@ request.onerror = function(event) {
 };
 
 function saveRecord(record) {
-  const transaction = db.transaction(["guests"], "readwrite");
-  const store = transaction.objectStore("guests");
+  const transaction = db.transaction(["workouts"], "readwrite");
+  const store = transaction.objectStore("workouts");
 
   store.add(record);
 
@@ -32,15 +32,9 @@ function saveRecord(record) {
   $("#guests").val(0);
 }
 
-function isOffline(){
-  $("#onlineStatus").attr("src", "images/offline_button.png");
-}
-
 function checkDatabase() {
-  $("#onlineStatus").attr("src", "images/online_button.png");
-  
-  const transaction = db.transaction(["guests"], "readwrite");
-  const store = transaction.objectStore("guests");
+  const transaction = db.transaction(["workouts"], "readwrite");
+  const store = transaction.objectStore("workouts");
   const getAll = store.getAll();
 
   getAll.onsuccess = function() {
@@ -49,17 +43,16 @@ function checkDatabase() {
     
       $.ajax({
         type: "POST",
-        url: "/api/guests/bulk",
+        url: "/api/workouts/bulk",
         data: JSON.stringify(getAll.result),
         headers: {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json"
         },
         success: function(msg){
-            const transaction = db.transaction(["guests"], "readwrite");
-            const store = transaction.objectStore("guests");
+            const transaction = db.transaction(["workouts"], "readwrite");
+            const store = transaction.objectStore("workouts");
             store.clear();
-            populateTable();
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
           console.log(getAll.result);
@@ -69,6 +62,19 @@ function checkDatabase() {
       });
     }
   };
+}
+
+function pullWorkouts(){
+  const transaction = db.transaction(["workouts"], "readwrite");
+  const store = transaction.objectStore("workouts");
+  const getAll = store.getAll();
+  return getAll;
+}
+function putExercise(object){
+  const transaction = db.transaction(["workouts"], "readwrite");
+  const store = transaction.objectStore("workouts");
+  const putOne = store.put(object);
+  return putOne;
 }
 
 // listen for app coming back online
