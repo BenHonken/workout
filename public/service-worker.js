@@ -1,5 +1,5 @@
-const FILES_TO_CACHE = ["/", "/?", "/index.html", "/index.js", "/exercise", "/exercise/?", "/exercise.html", "/exercise.js", "/stats", "/stats.html", "/stats.js", "/style.css", "/workout-style.css", "/api.js", "/workout.js"];
-
+const FILES_TO_CACHE = ["/", "/?", "/index.html", "/exercise", "/exercise/?", "/exercise.html", "/exercise.js", "/stats", "/stats.html", "/stats.js", "/style.css", "/workout-style.css", "/api.js", "/workout.js", "db.js"];
+// index.js has been removed until offline api work around is functional
 const CACHE_NAME = "static-cache-v2";
 const DATA_CACHE_NAME = "data-cache-v1";
 
